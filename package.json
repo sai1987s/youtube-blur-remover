@@ -1,12 +1,11 @@
 {
   "name": "youtube-blur-remover",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Free & open source Chrome extension that removes YouTube's animated blur effects and ambient glow",
   "main": "src/manifest.json",
   "scripts": {
-    "build": "python3 scripts/create-zip.py",
-    "zip": "zip -r youtube-blur-remover-v3.0.0.zip src/ README.md LICENSE",
-    "zip-manual": "echo 'Please manually create ZIP file with: src/ README.md LICENSE'",
+  "build": "python3 scripts/create-zip.py",
+  "dist": "python3 scripts/create-zip.py",
     "validate": "chrome --load-extension=./src",
     "test": "echo 'Load extension in Chrome Developer Mode to test'"
   },

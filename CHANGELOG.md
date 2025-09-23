@@ -8,10 +8,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- (none yet)
 
-- GitHub Actions workflow for automated building
-- Ko-fi donation support integration
-- Open source community guidelines
+### Changed
+- (none yet)
+
+### Fixed
+- (none yet)
+
+## [3.0.1] - 2025-09-23
+
+### Fixed
+- Release workflow failure (glob used with `-f` leading to package not detected)
+- Artifact detection updated to properly match `*-webstore.zip`
+- README corruption and encoding issues (restructured, clarified install and usage)
+- Manifest description updated to reflect open source status
+
+### Changed
+- Removed hardcoded versioned `zip` script; replaced with `dist` alias to dynamic build script
 
 ## [3.0.0] - 2024-09-02
 

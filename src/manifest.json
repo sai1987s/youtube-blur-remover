@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "YouTube Blur & Glow Remover",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Remove YouTube's animated blur effects and ambient glow. 100% free & open source.",
   "permissions": ["activeTab", "storage"],
   "host_permissions": ["*://*.youtube.com/*"],
