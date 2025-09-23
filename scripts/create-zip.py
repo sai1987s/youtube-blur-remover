@@ -24,7 +24,15 @@ def main():
         'CHANGELOG.md'
     ]
     
-    output_zip = 'youtube-blur-remover-v3.0.0-webstore.zip'
+    # Get version from manifest.json for dynamic filename
+    try:
+        with open('src/manifest.json', 'r') as f:
+            manifest = json.load(f)
+        version = manifest.get('version', '0.0.0')
+        output_zip = f'youtube-blur-remover-v{version}-webstore.zip'
+    except Exception as e:
+        print(f"❌ Error reading manifest.json: {e}")
+        return 1
     
     # Check if src directory exists
     print("📋 Checking extension files...")
