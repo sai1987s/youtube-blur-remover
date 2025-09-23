@@ -1,0 +1,224 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body {
+        width: 320px;
+        padding: 20px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        background: #f5f5f5;
+        margin: 0;
+      }
+      .header {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .icon {
+        width: 48px;
+        height: 48px;
+        margin: 0 auto 10px;
+        background: linear-gradient(135deg, #ff0000, #cc0000);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 24px;
+      }
+      h1 {
+        margin: 0;
+        font-size: 18px;
+        color: #333;
+      }
+      .toggle-section {
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .toggle-label {
+        font-weight: 500;
+        color: #333;
+        font-size: 14px;
+      }
+      .toggle-switch {
+        position: relative;
+        width: 50px;
+        height: 24px;
+        background: #ccc;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      .toggle-switch.active {
+        background: #4caf50;
+      }
+      .toggle-slider {
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 20px;
+        height: 20px;
+        background: white;
+        border-radius: 50%;
+        transition: transform 0.3s;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+      .toggle-switch.active .toggle-slider {
+        transform: translateX(26px);
+      }
+      .status {
+        text-align: center;
+        padding: 10px;
+        border-radius: 6px;
+        margin-bottom: 15px;
+        font-size: 13px;
+        font-weight: 500;
+      }
+      .status.enabled {
+        background: #e8f5e8;
+        border: 1px solid #4caf50;
+        color: #2e7d32;
+      }
+      .status.disabled {
+        background: #ffebee;
+        border: 1px solid #f44336;
+        color: #c62828;
+      }
+      .info {
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        margin-bottom: 15px;
+      }
+      .info h3 {
+        margin: 0 0 10px 0;
+        font-size: 14px;
+        color: #333;
+      }
+      .info p {
+        margin: 0;
+        font-size: 12px;
+        color: #666;
+        line-height: 1.4;
+      }
+      .refresh-note {
+        background: #fff3cd;
+        border: 1px solid #ffc107;
+        color: #856404;
+        padding: 10px;
+        border-radius: 6px;
+        font-size: 11px;
+        text-align: center;
+        margin-bottom: 15px;
+        display: none;
+      }
+      .version {
+        text-align: center;
+        font-size: 11px;
+        color: #888;
+        margin-top: 15px;
+      }
+      .support-section {
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        margin-bottom: 15px;
+        text-align: center;
+      }
+      .support-section h3 {
+        margin: 0 0 10px 0;
+        font-size: 14px;
+        color: #333;
+      }
+      .support-section p {
+        margin: 0 0 12px 0;
+        font-size: 12px;
+        color: #666;
+        line-height: 1.4;
+      }
+      .kofi-button {
+        background: #ff5e5b;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 12px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        transition: background-color 0.2s;
+      }
+      .kofi-button:hover {
+        background: #e74c3c;
+      }
+      .kofi-button:before {
+        content: "☕";
+        margin-right: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <div class="icon">🚫</div>
+      <h1>YouTube Blur & Glow Remover</h1>
+    </div>
+
+    <div class="toggle-section">
+      <span class="toggle-label">Remove glow effects</span>
+      <div class="toggle-switch" id="toggleSwitch">
+        <div class="toggle-slider"></div>
+      </div>
+    </div>
+
+    <div class="status enabled" id="status">✅ Extension is active</div>
+
+    <div class="refresh-note" id="refreshNote">
+      📝 Refresh YouTube page to apply changes
+    </div>
+
+    <div class="info">
+      <h3>What this extension does:</h3>
+      <p>
+        Automatically removes the animated blur effects around YouTube videos,
+        including ambient mode, background blur, and other visual effects that
+        may cause distractions.
+      </p>
+    </div>
+
+    <div class="info">
+      <h3>Current icon:</h3>
+      <p>
+        The 🚫 icon represents "blocking" or "removing" unwanted visual effects
+        from YouTube videos.
+      </p>
+    </div>
+
+    <div class="support-section">
+      <h3>❤️ Support Open Source</h3>
+      <p>
+        This extension is completely free! If it helps improve your YouTube
+        experience, consider supporting its development.
+      </p>
+      <a
+        href="https://ko-fi.com/presdec"
+        class="kofi-button"
+        target="_blank"
+        rel="noopener"
+        >Support on Ko-fi</a
+      >
+    </div>
+
+    <div class="version">Version 3.0.0 - Free & Open Source</div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

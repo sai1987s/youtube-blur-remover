@@ -1,0 +1,224 @@
+/* YouTube Blur Remover CSS */
+
+/* Remove blur effects from video player backgrounds */
+#player-container-outer,
+#player-container-inner,
+.ytp-gradient-top,
+.ytp-gradient-bottom,
+.ytp-chrome-top,
+.ytp-chrome-bottom {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+  background: transparent !important;
+}
+
+/* Remove blur from video container and player - but preserve main video */
+.html5-video-container:not(.video-stream),
+.ytp-player-content > div:not(.html5-video-container) {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+}
+
+/* Preserve the actual video element */
+.html5-video-container .video-stream,
+video.video-stream,
+video.html5-main-video {
+  backdrop-filter: initial !important;
+  -webkit-backdrop-filter: initial !important;
+  filter: initial !important;
+  opacity: 1 !important;
+  display: block !important;
+  visibility: visible !important;
+}
+
+/* Remove blur from theater mode and fullscreen */
+.ytp-exp-bottom-control-flexbox,
+.ytp-gradient-top,
+.ytp-gradient-bottom,
+.ytp-chrome-controls {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: rgba(0, 0, 0, 0.7) !important; /* Solid dark background instead of blur */
+}
+
+/* Remove blur from ambient mode and immersive elements */
+#cinematics,
+#cinematics canvas,
+.ytp-ce-video,
+.ytp-ce-element,
+.ambient-mode-art,
+.ytp-ambient-hover,
+.ytp-ambient-mode,
+.ambient-mode,
+.ambient-mode-container,
+.ytp-ambient-light,
+.ytp-ambient-glow,
+.ambient-light,
+.ambient-glow {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+  opacity: 0 !important;
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Target Canvas elements used for ambient effects - but preserve video canvas */
+canvas[data-ambient],
+canvas[class*="ambient"]:not(.html5-main-video):not(.video-stream),
+canvas[id*="ambient"]:not(.html5-main-video):not(.video-stream),
+canvas[class*="glow"]:not(.html5-main-video):not(.video-stream),
+canvas[id*="glow"]:not(.html5-main-video):not(.video-stream) {
+  opacity: 0 !important;
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* More specific targeting for ambient canvas in player */
+#movie_player canvas[class*="ambient"],
+#movie_player canvas[class*="glow"],
+.ytp-player-content canvas[class*="ambient"],
+.ytp-player-content canvas[class*="glow"] {
+  opacity: 0 !important;
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Preserve main video canvas elements */
+canvas.html5-main-video,
+canvas.video-stream,
+.html5-video-container canvas:not([class*="ambient"]):not([class*="glow"]) {
+  opacity: 1 !important;
+  display: block !important;
+  visibility: visible !important;
+}
+
+/* WebGL and 3D context canvas elements - preserve main video */
+canvas[data-gl-context]:not(.html5-main-video):not(.video-stream),
+canvas[style*="position: absolute"]:not(.html5-main-video):not(.video-stream),
+.webgl-canvas:not(.html5-main-video):not(.video-stream),
+.ambient-canvas {
+  opacity: 0 !important;
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Target any CSS animations that might create blur effects */
+* {
+  -webkit-animation: none !important;
+  -moz-animation: none !important;
+  -o-animation: none !important;
+  -ms-animation: none !important;
+  animation: none !important;
+}
+
+/* Specifically target YouTube's newer blur implementations */
+[class*="blur"], 
+[id*="blur"],
+[style*="blur"],
+[style*="backdrop-filter"],
+[class*="glow"],
+[id*="glow"],
+[class*="ambient"],
+[id*="ambient"],
+[style*="box-shadow"],
+[data-ambient],
+[data-glow] {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+/* Target elements with dynamic glow effects */
+.ytd-watch-flexy [class*="glow"],
+.ytd-player [class*="ambient"],
+.ytd-player [class*="glow"],
+.html5-video-container + *,
+.video-stream + * {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+  opacity: 0 !important;
+  display: none !important;
+}
+
+/* Remove any CSS transforms that might be used for blur effects */
+.ytp-player-content > * {
+  transform: none !important;
+  -webkit-transform: none !important;
+}
+
+/* Ensure video controls remain visible without blur */
+.ytp-chrome-bottom {
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8)) !important;
+}
+
+.ytp-chrome-top {
+  background: linear-gradient(rgba(0, 0, 0, 0.8), transparent) !important;
+}
+
+/* Handle YouTube Shorts blur effects */
+#shorts-player,
+.ytd-shorts,
+.shorts-video-container {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+}
+
+/* Remove blur from thumbnail overlays */
+.ytp-cued-thumbnail-overlay,
+.ytp-cued-thumbnail-overlay-image {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+}
+
+/* Target SVG and other graphics elements used for glow */
+svg[class*="ambient"],
+svg[class*="glow"],
+svg[id*="ambient"],
+svg[id*="glow"],
+.svg-ambient,
+.svg-glow {
+  opacity: 0 !important;
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* YouTube's newer ambient mode implementations */
+.ytd-watch-flexy .ambient-mode,
+.ytd-watch-flexy [aria-label*="ambient"],
+.ytd-watch-flexy [title*="ambient"],
+.player-controls-ambient,
+.ambient-lighting,
+.video-ambient-effect {
+  opacity: 0 !important;
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Disable any pseudo-elements that might create glow */
+*::before,
+*::after {
+  box-shadow: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Target elements with specific YouTube ambient classes */
+.ytp-ambient-focus,
+.ytp-ambient-blur,
+.ytp-videowall-still-info,
+.ambient-mode-enabled,
+.ytp-ambient-glow-enabled {
+  opacity: 0 !important;
+  display: none !important;
+  visibility: hidden !important;
+}

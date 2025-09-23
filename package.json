@@ -1,0 +1,59 @@
+{
+  "name": "youtube-blur-remover",
+  "version": "3.0.0",
+  "description": "Free & open source Chrome extension that removes YouTube's animated blur effects and ambient glow",
+  "main": "src/manifest.json",
+  "scripts": {
+    "build": "python3 scripts/create-zip.py",
+    "zip": "zip -r youtube-blur-remover-v3.0.0.zip src/ README.md LICENSE",
+    "zip-manual": "echo 'Please manually create ZIP file with: src/ README.md LICENSE'",
+    "validate": "chrome --load-extension=./src",
+    "test": "echo 'Load extension in Chrome Developer Mode to test'"
+  },
+  "keywords": [
+    "chrome-extension",
+    "youtube",
+    "blur-remover",
+    "video-enhancement",
+    "ambient-mode",
+    "glow-remover",
+    "open-source",
+    "free"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/presdec/youtube-blur-remover.git"
+  },
+  "bugs": {
+    "url": "https://github.com/presdec/youtube-blur-remover/issues"
+  },
+  "homepage": "https://github.com/presdec/youtube-blur-remover#readme",
+  "engines": {
+    "chrome": ">=88.0.0"
+  },
+  "funding": {
+    "type": "kofi",
+    "url": "https://ko-fi.com/presdec"
+  },
+  "ctx": {
+    "type": "chrome-extension",
+    "manifest_version": 3,
+    "target_platform": "chrome",
+    "monetization": "open-source-donations",
+    "donation_platform": "ko-fi",
+    "categories": [
+      "productivity",
+      "utilities"
+    ],
+    "permissions_required": [
+      "activeTab",
+      "storage"
+    ],
+    "content_security_policy": "script-src 'self'; object-src 'self'"
+  },
+  "devDependencies": {
+    "zip-cli": "^0.1.0"
+  }
+}

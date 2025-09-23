@@ -1,0 +1,99 @@
+name: Bug Report
+description: File a bug report to help us improve the extension
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser
+      description: Which browser are you using?
+      placeholder: ex. Chrome 118, Edge 117, Firefox 119
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: Operating System
+      description: What OS are you using?
+      placeholder: ex. Windows 11, macOS 14, Ubuntu 22.04
+    validations:
+      required: true
+
+  - type: input
+    id: extension-version
+    attributes:
+      label: Extension Version
+      description: What version of the extension are you using?
+      placeholder: ex. 3.0.0
+    validations:
+      required: true
+
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is.
+      placeholder: Describe what happened and what you expected to happen.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: Steps to Reproduce
+      description: Steps to reproduce the behavior
+      placeholder: |
+        1. Go to YouTube page...
+        2. Click on extension...
+        3. See error...
+    validations:
+      required: true
+
+  - type: textarea
+    id: youtube-url
+    attributes:
+      label: YouTube URL
+      description: What YouTube page were you on when this happened?
+      placeholder: https://www.youtube.com/watch?v=...
+    validations:
+      required: false
+
+  - type: textarea
+    id: console-errors
+    attributes:
+      label: Console Errors
+      description: Any errors from the browser console (F12 > Console tab)
+      placeholder: Paste any error messages here
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Add any other context about the problem here
+      placeholder: Screenshots, specific YouTube features affected, etc.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission Checklist
+      description: Please verify these before submitting
+      options:
+        - label: I have checked existing issues for duplicates
+          required: true
+        - label: I have tried refreshing the YouTube page
+          required: true
+        - label: I have tried disabling and re-enabling the extension
+          required: false
+        - label: I have checked the browser console for errors
+          required: false

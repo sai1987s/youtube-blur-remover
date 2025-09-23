@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Play Button with Disabled Overlay</title>
+    <style>
+      :root {
+        --btn-w: 220px;
+        --btn-h: 140px;
+        --btn-radius: 32px;
+        --red1: #ff3b30;
+        --red2: #c9140c;
+        --glow: #ff3b30;
+      }
+
+      body {
+        margin: 0;
+        height: 100vh;
+        background: transparent;
+        display: grid;
+        place-items: center;
+        font-family: system-ui, emoji;
+      }
+
+      .icon {
+        position: relative;
+        width: 200px;
+        height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Red glow background - use multiple divs for better capture */
+      .glow-outer {
+        position: absolute;
+        width: 220px;
+        height: 220px;
+        background: radial-gradient(
+          circle,
+          rgba(255, 0, 0, 0.3) 0%,
+          rgba(255, 0, 0, 0.1) 50%,
+          transparent 100%
+        );
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .glow-middle {
+        position: absolute;
+        width: 180px;
+        height: 180px;
+        background: radial-gradient(
+          circle,
+          rgba(255, 0, 0, 0.5) 0%,
+          rgba(255, 0, 0, 0.2) 70%,
+          transparent 100%
+        );
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .glow-inner {
+        position: absolute;
+        width: 140px;
+        height: 140px;
+        background: radial-gradient(
+          circle,
+          rgba(255, 0, 0, 0.7) 0%,
+          rgba(255, 0, 0, 0.3) 80%,
+          transparent 100%
+        );
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .button {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100px;
+        height: 100px;
+        background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
+        border-radius: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+      }
+
+      /* SVG triangle play button for better html2canvas compatibility */
+      .play {
+        width: 64px;
+        height: 64px;
+        margin-left: 4px;
+      }
+
+      .play svg {
+        width: 200%;
+        height: 200%;
+        fill: white;
+      }
+
+      .overlay {
+        position: absolute;
+        margin-bottom: 18px;
+        display: grid;
+        place-items: center;
+        pointer-events: none;
+        font-size: 179px;
+        line-height: 1;
+        z-index: 20;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+      }
+
+      .sharp {
+        display: block;
+      }
+
+      .blurred {
+        display: none;
+      }
+
+      .play {
+        width: 100%;
+        aspect-ratio: 1/1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .play svg {
+        width: 100%;
+        height: 100%;
+        fill: white;
+      }
+
+      /* Emoji overlay larger than the button */
+      .overlay {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        pointer-events: none;
+        font-size: 180px; /* bigger than the 220x140 rectangle */
+        line-height: 1;
+      }
+      .overlay > span {
+        position: absolute;
+      }
+
+      /* Download controls */
+      .controls {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        background: rgba(0, 0, 0, 0.8);
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        z-index: 1000;
+      }
+
+      .download-btn {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background 0.2s;
+        min-width: 120px;
+      }
+
+      .download-btn:hover {
+        background: #0056b3;
+      }
+
+      .download-btn:disabled {
+        background: #6c757d;
+        cursor: not-allowed;
+      }
+
+      .controls h3 {
+        color: white;
+        margin: 0 0 10px 0;
+        font-size: 16px;
+      }
+
+      .status {
+        color: #28a745;
+        font-size: 12px;
+        text-align: center;
+        margin-top: 10px;
+      }
+
+      .icon-container {
+        display: inline-block;
+        position: relative;
+        padding: 40px; /* Extra space to capture glow effects */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="icon-container" id="iconContainer">
+      <div class="icon" id="iconElement">
+        <div class="glow-outer"></div>
+        <div class="glow-middle"></div>
+        <div class="glow-inner"></div>
+        <div class="button">
+          <div class="play">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <polygon points="20,15 20,85 85,50" fill="white" />
+            </svg>
+          </div>
+        </div>
+        <div class="overlay">
+          <span class="sharp">🚫</span>
+          <span class="blurred">🚫</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <h3>📸 Capture PNG Icons</h3>
+      <button class="download-btn" onclick="captureIcon(16)">
+        Download 16x16
+      </button>
+      <button class="download-btn" onclick="captureIcon(48)">
+        Download 48x48
+      </button>
+      <button class="download-btn" onclick="captureIcon(128)">
+        Download 128x128
+      </button>
+      <div class="status" id="status"></div>
+    </div>
+
+    <!-- Load html2canvas from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+    <script>
+      function setStatus(message) {
+        document.getElementById("status").textContent = message;
+        setTimeout(() => {
+          document.getElementById("status").textContent = "";
+        }, 3000);
+      }
+
+      async function captureIcon(targetSize) {
+        const iconElement = document.getElementById("iconElement");
+        const buttons = document.querySelectorAll(".download-btn");
+
+        try {
+          // Disable buttons during capture
+          buttons.forEach((btn) => (btn.disabled = true));
+          setStatus("📸 Capturing...");
+
+          // Wait for fonts and rendering to complete
+          await document.fonts.ready;
+          await new Promise((resolve) => setTimeout(resolve, 500));
+
+          console.log(
+            "Element dimensions:",
+            iconElement.offsetWidth,
+            iconElement.offsetHeight
+          );
+          console.log(
+            "Element position:",
+            iconElement.offsetLeft,
+            iconElement.offsetTop
+          );
+
+          // Capture the container that includes glow effects and emoji overlay
+          const container = document.getElementById("iconContainer");
+          const canvas = await html2canvas(container, {
+            backgroundColor: null,
+            scale: 2,
+            useCORS: true,
+            allowTaint: true,
+            logging: true, // Enable logging to debug
+            removeContainer: false,
+            foreignObjectRendering: false, // Try without this first
+            onclone: function (clonedDoc) {
+              // Ensure styles are properly cloned
+              const clonedElement = clonedDoc.getElementById("iconElement");
+              if (clonedElement) {
+                console.log("Cloned element found");
+              } else {
+                console.log("Cloned element NOT found");
+              }
+            },
+          });
+
+          console.log("Canvas dimensions:", canvas.width, canvas.height);
+
+          // Check if canvas has content
+          const tempCtx = canvas.getContext("2d");
+          const imageData = tempCtx.getImageData(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+          );
+          const hasContent = imageData.data.some((value) => value !== 0);
+          console.log("Canvas has content:", hasContent);
+
+          if (!hasContent) {
+            throw new Error("Canvas is empty - capture failed");
+          }
+
+          // Create a new canvas for the target size
+          const finalCanvas = document.createElement("canvas");
+          const ctx = finalCanvas.getContext("2d");
+          finalCanvas.width = targetSize;
+          finalCanvas.height = targetSize;
+
+          // Clear canvas (transparent background)
+          ctx.clearRect(0, 0, targetSize, targetSize);
+
+          // Calculate scaling to fit the icon properly while maintaining aspect ratio
+          const originalWidth = canvas.width;
+          const originalHeight = canvas.height;
+
+          // Calculate scale to fit within target size
+          const scale = Math.min(
+            targetSize / originalWidth,
+            targetSize / originalHeight
+          );
+
+          const scaledWidth = originalWidth * scale;
+          const scaledHeight = originalHeight * scale;
+
+          // Center the image
+          const x = (targetSize - scaledWidth) / 2;
+          const y = (targetSize - scaledHeight) / 2;
+
+          // Draw the captured image
+          ctx.drawImage(canvas, x, y, scaledWidth, scaledHeight);
+
+          // Convert to blob and download
+          finalCanvas.toBlob(
+            (blob) => {
+              if (blob) {
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement("a");
+                link.href = url;
+                link.download = `icon${targetSize}.png`;
+                link.style.display = "none";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+
+                setStatus(`✅ Downloaded icon${targetSize}.png`);
+              } else {
+                setStatus("❌ Failed to create download");
+              }
+            },
+            "image/png",
+            1.0
+          );
+        } catch (error) {
+          console.error("Capture failed:", error);
+          setStatus(`❌ ${error.message}`);
+        } finally {
+          // Re-enable buttons
+          buttons.forEach((btn) => (btn.disabled = false));
+        }
+      }
+
+      // Fallback method if html2canvas fails to load
+      function checkLibraryAndSetup() {
+        if (typeof html2canvas === "undefined") {
+          setStatus("⚠️ Loading capture library...");
+          setTimeout(checkLibraryAndSetup, 500);
+        } else {
+          setStatus("✅ Ready to capture!");
+        }
+      }
+
+      // Initialize when page loads
+      window.addEventListener("load", () => {
+        setTimeout(checkLibraryAndSetup, 1000);
+      });
+    </script>
+  </body>
+</html>
