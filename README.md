@@ -1,134 +1,129 @@
 # YouTube Blur Remover 🚫
 
-**Free & Open Source Chrome Extension**
+Free & Open Source Chrome Extension that removes YouTube's animated blur effects and ambient glow for a cleaner viewing experience.
 
-Remove YouTube's annoying animated blur effects and ambient glow around videos for a cleaner viewing experience.
-
-[![Chrome Web Store](https://img.shields.io/badge/Chrome-Web%20Store-green?style=flat&logo=google-chrome)](https://chrome.google.com/webstore)
+[![Chrome Web Store](https://img.shields.io/badge/Chrome-Web%20Store-pending-lightgrey?style=flat&logo=google-chrome)](https://chrome.google.com/webstore) 
 [![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Ko-fi](https://img.shields.io/badge/Support%20on-Ko--fi-red?style=flat&logo=ko-fi)](https://ko-fi.com/presdec)
 
 ## ✨ Features
 
-- **🎯 Remove blur effects** - Eliminates YouTube's animated blur around videos
-- **🌟 Remove ambient glow** - Disables the distracting glow effects
-- **⚡ Lightweight** - Minimal performance impact
-- **🔄 Toggle control** - Easy on/off switch in popup
-- **🎭 Theater mode support** - Works in all YouTube viewing modes
-- **🔒 Privacy-focused** - No data collection, works entirely locally
+- 🎯 Removes animated blur around the video player
+- 🌟 Disables ambient glow / mood lighting
+- ⚡ Lightweight & efficient (runs only on YouTube)
+- 🔄 Quick toggle via popup
+- 🎭 Works in normal + theater mode + embedded pages
+- 🔒 No tracking, no external requests, no analytics
 
 ## 🚀 Installation
 
-### From Chrome Web Store (Recommended)
+### Chrome Web Store (Coming Soon)
+Will be available after initial review. For now, use manual install.
 
-1. Visit the [Chrome Web Store](https://chrome.google.com/webstore)
-2. Search for "YouTube Blur Remover"
-3. Click "Add to Chrome"
-
-### From Source (Developers)
-
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/presdec/youtube-blur-remover.git
-   cd youtube-blur-remover
-   ```
-2. Open Chrome and go to `chrome://extensions/`
-3. Enable "Developer mode" (top right toggle)
-4. Click "Load unpacked" and select the `src/` folder
-
-## 🎮 Usage
-
-1. **Install the extension** (see installation above)
-2. **Visit YouTube** and play any video
-3. **Click the extension icon** in the toolbar to toggle on/off
-4. **Enjoy cleaner videos** without distracting blur effects!
-
-The extension automatically removes:
-
-- Animated blur effects around video players
-- Ambient glow and mood lighting effects
-- Canvas-based visual effects
-- Gradient overlays and shadows
-
-## 🛠️ Development
-
-### Prerequisites
-
-- Chrome/Chromium browser
-- Basic knowledge of Chrome Extensions
-- Node.js (optional, for build tools)
-
-### Setup
-
+### Manual Install (Developer Mode)
 ```bash
-# Clone the repository
 git clone https://github.com/presdec/youtube-blur-remover.git
 cd youtube-blur-remover
+```
+Then:
+1. Open `chrome://extensions/`
+2. Enable Developer Mode (top-right)
+3. Click "Load unpacked"
+4. Select the `src/` folder
 
-# Install build dependencies (optional)
-npm install
+## 🎮 Usage
+1. Open any YouTube video
+2. Click the extension icon if you want to toggle it off/on
+3. Blur & glow are removed automatically when enabled
 
-# Build distribution package
+Removes:
+- Animated player edge blur
+- Ambient glow / mood lighting overlays
+- Canvas / CSS glow layers & gradients
+
+## 🛠️ Development
+Prerequisites: Chrome/Chromium, optional Node.js for helper scripts
+
+Build a distributable ZIP:
+```bash
 npm run build
 ```
+This runs `scripts/create-zip.py` and produces `youtube-blur-remover-vX.Y.Z-webstore.zip`.
 
 ### File Structure
-
 ```
 src/
-├── manifest.json      # Extension manifest (Manifest V3)
-├── background.js      # Service worker for lifecycle management
-├── content.js         # Main script that removes blur effects
-├── popup.html         # Extension popup interface
-├── popup.js           # Popup functionality and settings
-├── styles.css         # CSS for blur removal
-├── config.js          # Configuration and constants
-└── icons/             # Extension icons (16px, 48px, 128px)
+├── manifest.json      # Extension manifest (MV3)
+├── background.js      # Service worker
+├── content.js         # Blur/glow removal logic
+├── popup.html / popup.js
+├── styles.css         # Override styles
+├── config.js          # Constants
+└── icons/             # Icons
 ```
 
 ### How It Works
-
-1. **Content Script Injection**: The extension injects CSS and JavaScript into YouTube pages
-2. **DOM Manipulation**: Targets specific YouTube elements that create blur effects
-3. **CSS Override**: Applies styles to disable blur, backdrop-filter, and glow effects
-4. **State Management**: Saves user preferences and syncs across tabs
+1. Early-run content script injects CSS to neutralize blur/glow
+2. Mutation observers catch dynamic player re-renders
+3. Popup toggles a persisted enabled/disabled state
+4. Minimal DOM writes → negligible performance impact
 
 ## 🤝 Contributing
+1. Fork the repo
+2. `git checkout -b feature/your-feature`
+3. Make changes (add tests/docs if needed)
+4. `git commit -m 'feat: add X'`
+5. `git push origin feature/your-feature`
+6. Open a Pull Request
 
-We welcome contributions! Here's how to help:
-
-1. **Fork the repository**
-2. **Create a feature branch**: `git checkout -b feature/amazing-feature`
-3. **Make your changes** and test thoroughly
-4. **Commit your changes**: `git commit -m 'Add amazing feature'`
-5. **Push to the branch**: `git push origin feature/amazing-feature`
-6. **Open a Pull Request**
-
-### Contribution Guidelines
-
-- Follow existing code style and structure
-- Test your changes on multiple YouTube pages
-- Update documentation if needed
-- Keep commits focused and well-described
+Guidelines:
+- Keep scope focused
+- Test on: normal page, theater mode, embedded player
+- Update README/CHANGELOG if behavior changes
 
 ## 🐛 Bug Reports & Feature Requests
+Use GitHub Issues & Discussions:
+- Bugs: https://github.com/presdec/youtube-blur-remover/issues
+- Ideas / enhancements: https://github.com/presdec/youtube-blur-remover/discussions
 
-Found a bug or have an idea? We'd love to hear from you!
+## 📦 Release Process
+Automated via GitHub Actions. To create a release:
+1. Run the "Create Release" workflow (choose patch/minor/major)
+2. Workflow updates versions, changelog, creates tag & release
+3. Build workflow attaches the ZIP artifact
 
-- **Bug Reports**: [Open an issue](https://github.com/presdec/youtube-blur-remover/issues) with detailed steps to reproduce
-- **Feature Requests**: [Start a discussion](https://github.com/presdec/youtube-blur-remover/discussions) to share your ideas
-- **Questions**: Check [existing issues](https://github.com/presdec/youtube-blur-remover/issues) or start a new discussion
+Manual (fallback):
+```bash
+./scripts/create-release.sh patch "Short description"
+git push origin main --tags
+```
+
+## 💖 Support the Project
+If this helps you, consider supporting:
+
+[![Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/presdec)
+
+Stars, feedback, and reviews also help a ton 🙏
+
+## 📄 License
+MIT License. See [LICENSE](LICENSE).
+
+## 🔒 Privacy
+- No data collection
+- Runs only on YouTube domains
+- No network requests besides YouTube itself
+- 100% local execution
+
+## 🌟 Acknowledgments
+Built for users who want a clean, distraction‑free YouTube. Community feedback welcome.
+
+---
+Made with ❤️. If you like it, drop a ⭐.
 
 ## � Release Process
 
 ### Automated Releases (Recommended)
 
-1. **Go to GitHub Actions** → "Create Release" workflow
-2. **Click "Run workflow"** and select version type:
-   - `patch` - Bug fixes (1.0.0 → 1.0.1)
-   - `minor` - New features (1.0.0 → 1.1.0)
-   - `major` - Breaking changes (1.0.0 → 2.0.0)
-3. **Add release notes** (optional)
 4. **Run workflow** - Automatically creates release with changelog
 
 ### Manual Releases
