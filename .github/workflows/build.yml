@@ -86,26 +86,30 @@ jobs:
 
       - name: Check package contents
         run: |
-          if [ -f "youtube-blur-remover-v*.zip" ]; then
-            echo "Package created successfully ✅"
-            ZIP_FILE=$(ls youtube-blur-remover-v*.zip)
-            echo "package_name=${ZIP_FILE}" >> $GITHUB_ENV
-            
-            echo "📦 Package Contents:"
-            unzip -l "${ZIP_FILE}"
-            
-            echo "📏 Package Size:"
-            ls -lh "${ZIP_FILE}"
-          else
-            echo "Package creation failed ❌"
+          shopt -s nullglob
+          files=(youtube-blur-remover-v*-webstore.zip)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "Package creation failed ❌ (no matching youtube-blur-remover-v*-webstore.zip)"
+            echo "Directory listing for diagnostics:" 
+            ls -1
             exit 1
           fi
+          ZIP_FILE="${files[0]}"
+          echo "Package created successfully ✅ -> ${ZIP_FILE}"
+          echo "package_name=${ZIP_FILE}" >> $GITHUB_ENV
+          echo "::notice file=scripts/create-zip.py::Detected package ${ZIP_FILE}"
+
+          echo "📦 Package Contents:"
+          unzip -l "${ZIP_FILE}"
+
+          echo "📏 Package Size:"
+          ls -lh "${ZIP_FILE}"
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: youtube-blur-remover-extension-${{ steps.get_version.outputs.version }}
-          path: youtube-blur-remover-v*.zip
+          path: youtube-blur-remover-v*-webstore.zip
           retention-days: 90
 
   lint:
