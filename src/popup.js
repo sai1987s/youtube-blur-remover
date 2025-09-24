@@ -17,8 +17,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const currentState = result.blurRemoverEnabled !== false; // Default to true
       const newState = !currentState;
 
-      // Save new state
-      chrome.storage.sync.set({ blurRemoverEnabled: newState }, function () {
+      function persistAndNotify() {
+        chrome.storage.sync.set({ blurRemoverEnabled: newState }, function () {
         updateUI(newState);
 
         // Show refresh note
@@ -51,7 +51,28 @@ document.addEventListener("DOMContentLoaded", function () {
             }
           }
         );
-      });
+        });
+      }
+
+      // If enabling, request optional host permissions for YouTube
+      if (newState) {
+        chrome.permissions.request(
+          { origins: ["https://www.youtube.com/*"] },
+          (granted) => {
+            if (!granted) {
+              // Revert if user declined
+              updateUI(false);
+              chrome.storage.sync.set({ blurRemoverEnabled: false });
+              return;
+            }
+            // Ask background to (re)register scripts
+            chrome.runtime.sendMessage({ action: "registerScripts" });
+            persistAndNotify();
+          }
+        );
+      } else {
+        persistAndNotify();
+      }
     });
   });
 

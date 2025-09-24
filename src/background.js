@@ -1,5 +1,5 @@
 // YouTube Blur Remover - Service Worker Background Script
-// Handles extension lifecycle and cross-tab communication
+// Handles extension lifecycle, permissions, and content script registration
 
 // Debug flag - set to false before shipping
 const DEBUG = false;
@@ -16,8 +16,49 @@ function debugLog(message, data = null) {
 
 debugLog("Service worker started");
 
+const YT_MATCH = [{ urlMatches: "^https://(www\\.)?youtube\\.com/" }];
+
+async function ensurePermissions() {
+  return new Promise((resolve) => {
+    chrome.permissions.contains(
+      { origins: ["https://www.youtube.com/*"] },
+      (granted) => {
+        if (granted) return resolve(true);
+        chrome.permissions.request(
+          { origins: ["https://www.youtube.com/*"] },
+          (justGranted) => resolve(!!justGranted)
+        );
+      }
+    );
+  });
+}
+
+async function registerContentScripts() {
+  try {
+    // Remove existing registrations to avoid duplicates
+    const existing = await chrome.scripting.getRegisteredContentScripts();
+    const idsToRemove = existing.map((e) => e.id).filter(Boolean);
+    if (idsToRemove.length) await chrome.scripting.unregisterContentScripts({ ids: idsToRemove });
+
+    await chrome.scripting.registerContentScripts([
+      {
+        id: "yt-blur-remover",
+        matches: ["https://www.youtube.com/*"],
+        js: ["content.js"],
+        css: ["styles.css"],
+        runAt: "document_start",
+        allFrames: false,
+        persistAcrossSessions: true,
+      },
+    ]);
+    debugLog("Registered programmatic content script for YouTube");
+  } catch (e) {
+    console.error("Failed to register content script", e);
+  }
+}
+
 // Extension installation/update handler
-chrome.runtime.onInstalled.addListener((details) => {
+chrome.runtime.onInstalled.addListener(async (details) => {
   debugLog("Extension installed/updated:", details.reason);
 
   // Set default settings
@@ -38,12 +79,18 @@ chrome.runtime.onInstalled.addListener((details) => {
       version: chrome.runtime.getManifest().version,
     });
   }
+  // Try to register scripts if permission already granted
+  const granted = await ensurePermissions();
+  if (granted) await registerContentScripts();
 });
 
 // Handle extension icon clicks (when popup might not be available)
 chrome.action.onClicked.addListener(async (tab) => {
   // This only fires if no popup is defined or popup fails to load
   if (tab.url?.includes("youtube.com")) {
+    // Request permissions on-demand if not present
+    const granted = await ensurePermissions();
+    if (granted) await registerContentScripts();
     // Toggle the extension state
     const result = await chrome.storage.local.get(["blurRemoverEnabled"]);
     const newState = !result.blurRemoverEnabled;
@@ -95,6 +142,11 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
 // Handle tab updates to refresh extension state on YouTube pages
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   if (changeInfo.status === "complete" && tab.url?.includes("youtube.com")) {
+    const granted = await ensurePermissions();
+    if (granted) {
+      // Make sure scripts are registered
+      await registerContentScripts();
+    }
     // Ensure content script knows the current state
     const result = await chrome.storage.local.get(["blurRemoverEnabled"]);
     const isEnabled = result.blurRemoverEnabled !== false;
@@ -140,6 +192,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         });
       });
       break;
+    case "registerScripts":
+      (async () => {
+        const granted = await ensurePermissions();
+        if (granted) await registerContentScripts();
+        sendResponse({ ok: granted });
+      })();
+      return true;
   }
 });
 
