@@ -16,6 +16,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - (none yet)
 
+## [3.1.0] - 2025-09-24
+
+### Changed
+- Switched to optional host permissions (YouTube origin requested on first enable) to reduce install-time prompts
+- Programmatic content script registration via `chrome.scripting.registerContentScripts` (MV3 best practice)
+- Narrowed scope from all subdomains to `www.youtube.com` for least privilege
+
+### Added
+- Popup flow requests permission when enabling on YouTube and registers scripts on demand
+
+### Fixed
+- User-facing trust/perception concerns by removing broad host permissions at install time
+
 ## [3.0.1] - 2025-09-23
 
 ### Fixed
